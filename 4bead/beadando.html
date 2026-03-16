@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<title>Teendő lista</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background-color:#f4f6f8;
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    width:350px;
+}
+
+h1{
+    text-align:center;
+    color:#333;
+    margin-bottom:20px;
+}
+
+.input-area{
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:10px;
+    font-size:16px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+input:focus{
+    outline:none;
+    border-color:#007bff;
+}
+
+button{
+    padding:10px 15px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+ul{
+    margin-top:20px;
+    padding-left:0;
+}
+
+li{
+    list-style:none;
+    padding:10px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+li:hover{
+    background:#f2f2f2;
+}
+
+.done{
+    text-decoration: line-through;
+    color:gray;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Teendő lista</h1>
+
+<div class="input-area">
+<input type="text" id="todoInput" placeholder="Új teendő...">
+<button id="addBtn">Hozzáadás</button>
+</div>
+
+<ul id="todoList"></ul>
+
+</div>
+<script>
+
+let input = document.getElementById("todoInput");
+let button = document.getElementById("addBtn");
+let list = document.getElementById("todoList");
+
+button.addEventListener("click", function(){
+
+    let text = input.value;
+
+    if(text !== ""){
+        let li = document.createElement("li");
+        li.textContent = text;
+
+        li.addEventListener("click", function(){
+            li.classList.toggle("done");
+        });
+
+        list.appendChild(li);
+
+        input.value = "";
+    }
+});
+
+</script>
+
+</body>
+</html>

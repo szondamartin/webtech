@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git App - Felhasználó kereső</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Felhasználó keresés</h1>
+
+    <label for="user-search-input">Felhasználónév:</label>
+    <input type="text" id="user-search-input" placeholder="Pl. szondamartin">
+    <button class="btn btn-primary" id="search-btn">Keresés</button>
+
+    <div id="result"></div>
+
+    <script src="app.js"></script>
+    <script>
+        function showError(message) {
+    alert(message);
+}
+
+async function loadUsers(searchText) {
+    try {
+        const res = await fetch(
+            'https://api.github.com/search/users?q=' + encodeURIComponent(searchText)
+        );
+
+        if (!res.ok) {
+            throw Error('Hibás válasz, státuszkód: ' + res.status);
+        }
+
+        const data = await res.json();
+
+        const resultDiv = document.querySelector('#result');
+        resultDiv.innerHTML = '';
+
+        for (const user of data.items) {
+            const userHtml = `
+                <div class="card">
+                    <img src="${user.avatar_url}" alt="${user.login}" width="100">
+                    <p>${user.login}</p>
+                </div>
+            `;
+
+            resultDiv.innerHTML += userHtml;
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert('Hiba történt a keresés során.');
+    }
+}
+
+const searchBtn = document.querySelector('#search-btn');
+
+if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+        const inputElem = document.querySelector('#user-search-input');
+        const searchText = inputElem.value;
+
+        if (searchText.trim() === '') {
+            showError('Adj meg egy felhasználónevet!');
+            return;
+        }
+
+        loadUsers(searchText);
+    });
+}
+    </script>
+</body>
+</html>
